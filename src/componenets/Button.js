@@ -14,7 +14,7 @@ function Button({
 }) {
   let classes = classnames(
     rest.className,
-    "items-center px-3 py-1.5 font-bold mx-12 mt-5",
+    "items-center px-3 py-1.5 font-bold font-bold py-4 px-8 mt-8",
     {
       "bg-blue-500 hover:bg-blue-700 text-white border-blue-80": primary,
       "bg-gray-500 hover:bg-gray-700 text-white border-gray-80": secondary,
