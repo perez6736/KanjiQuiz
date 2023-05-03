@@ -6,7 +6,10 @@ import Button from "./Button";
 
 function App() {
   const [showBack, setShowBack] = useState(false);
-  const [quiz, setQuiz] = useState([]);
+  const [quiz, setQuiz] = useState([
+    { kanjiData: { kanji: "" }, right: false, wrong: false },
+  ]);
+  const [quizCount, setQuizCount] = useState(0);
   const { kanjis, fetchKanjisJouyou1 } = useContext(KanjiContext);
 
   useEffect(() => {
@@ -21,8 +24,19 @@ function App() {
     setShowBack(!showBack);
   };
 
+  const handleCorrectAnswerClick = () => {
+    setQuizCount(quizCount + 1);
+    setShowBack(!showBack);
+  };
+
+  const handleWrongAnswerClick = () => {
+    setQuizCount(quizCount + 1);
+    setShowBack(!showBack);
+  };
+
+  //create a function that grabs the quiz array. map through it and change the quizCount index to true/false and return the updated array.
+
   const createListForQuiz = () => {
-    console.log(kanjis);
     if (kanjis[0] === undefined) {
       return;
     }
@@ -30,7 +44,7 @@ function App() {
     while (result.length < 20) {
       const item = kanjis[Math.floor(Math.random() * kanjis.length)];
       if (!result.includes(item)) {
-        result.push(item);
+        result.push({ kanjiData: item, right: false, wrong: false });
       }
     }
     setQuiz(result);
@@ -47,19 +61,24 @@ function App() {
         >
           {showBack ? (
             <div className="flex flex-col items-center">
-              <Kanji />
+              <Kanji kanji={quiz[quizCount]} />
               <div className="flex justify-center w-full mt-8">
-                <Button success rounded className="mr-4" onClick={handleClick}>
+                <Button
+                  success
+                  rounded
+                  className="mr-4"
+                  onClick={handleCorrectAnswerClick}
+                >
                   Correct
                 </Button>
-                <Button danger rounded onClick={handleClick}>
+                <Button danger rounded onClick={handleWrongAnswerClick}>
                   Incorrect
                 </Button>
               </div>
             </div>
           ) : (
             <div className="flex flex-col items-center">
-              <Kanji list={quiz[0]} />
+              <Kanji kanji={quiz[quizCount]} />
               <div className="flex justify-center w-full mt-8">
                 <Button primary onClick={handleClick}>
                   Show Answer
