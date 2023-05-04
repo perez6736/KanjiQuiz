@@ -25,16 +25,38 @@ function App() {
   };
 
   const handleCorrectAnswerClick = () => {
+    changeToTrue();
     setQuizCount(quizCount + 1);
     setShowBack(!showBack);
   };
 
   const handleWrongAnswerClick = () => {
+    changeToFalse();
     setQuizCount(quizCount + 1);
     setShowBack(!showBack);
   };
 
-  //create a function that grabs the quiz array. map through it and change the quizCount index to true/false and return the updated array.
+  let changeToTrue = () => {
+    let currentKanji = quiz[quizCount].kanjiData.kanji;
+    let newObject = quiz.map((item) => {
+      if (item.kanjiData.kanji === currentKanji) {
+        return { ...item, right: true };
+      }
+      return item;
+    });
+    setQuiz(newObject);
+  };
+
+  let changeToFalse = () => {
+    let currentKanji = quiz[quizCount].kanjiData.kanji;
+    let newObject = quiz.map((item) => {
+      if (item.kanjiData.kanji === currentKanji) {
+        return { ...item, wrong: true };
+      }
+      return item;
+    });
+    setQuiz(newObject);
+  };
 
   const createListForQuiz = () => {
     if (kanjis[0] === undefined) {
