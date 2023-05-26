@@ -1,77 +1,31 @@
-import { useEffect, useContext, useState } from "react";
-import KanjiContext from "../context/kanji";
+import { useState } from "react";
 import Kanji from "./Kanji";
 import Button from "./Button";
 
-function KanjiCard() {
-  const { kanjis, fetchKanjisJouyou1 } = useContext(KanjiContext);
+function KanjiCard({ quizList, markKanjiCorrect, quizCount, incrementCount }) {
   const [showBack, setShowBack] = useState(false);
-  const [quizCount, setQuizCount] = useState(0);
-  const [quiz, setQuiz] = useState([
-    { kanjiData: { kanji: "" }, right: false, wrong: false },
-  ]);
-
-  useEffect(() => {
-    createListForQuiz();
-  }, [kanjis]);
 
   const handleClick = () => {
     setShowBack(!showBack);
   };
 
   const handleCorrectAnswerClick = () => {
-    changeToTrue();
-    setQuizCount(quizCount + 1);
+    markKanjiCorrect();
+    incrementCount();
     setShowBack(!showBack);
   };
 
   const handleWrongAnswerClick = () => {
-    changeToFalse();
-    setQuizCount(quizCount + 1);
+    incrementCount();
     setShowBack(!showBack);
   };
 
-  let changeToTrue = () => {
-    let currentKanji = quiz[quizCount].kanjiData.kanji;
-    let newObject = quiz.map((item) => {
-      if (item.kanjiData.kanji === currentKanji) {
-        return { ...item, right: true };
-      }
-      return item;
-    });
-    setQuiz(newObject);
-  };
-
-  let changeToFalse = () => {
-    let currentKanji = quiz[quizCount].kanjiData.kanji;
-    let newObject = quiz.map((item) => {
-      if (item.kanjiData.kanji === currentKanji) {
-        return { ...item, wrong: true };
-      }
-      return item;
-    });
-    setQuiz(newObject);
-  };
-
-  const createListForQuiz = () => {
-    if (!kanjis || kanjis[0] === undefined) {
-      return;
+  const showQuizItem = () => {
+    if (quizList.length > 0) {
+      return quizList[quizCount].kanjiData.kanji;
+    } else {
+      return "...Loading";
     }
-    const results = [];
-    while (results.length < 20) {
-      const item = kanjis[Math.floor(Math.random() * kanjis.length)];
-      if (results.length === 0) {
-        results.push({ kanjiData: item, right: false, wrong: false });
-      } else if (
-        //results.find returns the first object it finds and returns the result - js is weird and undefind is falsy and defined is truthy.
-        !results.find((result) => {
-          return result.kanjiData.kanji === item.kanji;
-        })
-      ) {
-        results.push({ kanjiData: item, right: false, wrong: false });
-      }
-    }
-    setQuiz(results);
   };
 
   return (
@@ -83,7 +37,7 @@ function KanjiCard() {
       >
         {showBack ? (
           <div className="flex flex-col items-center">
-            <Kanji kanji={quiz[quizCount]} />
+            <Kanji kanji={showQuizItem()} />
             <div className="flex justify-center w-full mt-8">
               <Button
                 success
@@ -100,7 +54,7 @@ function KanjiCard() {
           </div>
         ) : (
           <div className="flex flex-col items-center">
-            <Kanji kanji={quiz[quizCount]} />
+            <Kanji kanji={showQuizItem()} />
             <div className="flex justify-center w-full mt-8">
               <Button primary onClick={handleClick}>
                 Show Answer
