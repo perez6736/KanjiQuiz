@@ -1,41 +1,183 @@
 import React from "react";
 
-const ResultItem = ({ kanji, meaning, reading, level }) => {
+const ResultItem = ({ kanji }) => {
   return (
     <div className="bg-white p-4 rounded-lg shadow-md mb-4">
-      <div className="flex justify-between items-center">
-        <span className="font-bold text-xl">{kanji}</span>
-        <span className="text-gray-500">Level {level}</span>
-      </div>
-      <div className="mt-2">
-        <div className="flex items-center">
-          <span className="font-semibold mr-2">Meaning:</span>
-          <span>{meaning}</span>
-        </div>
-        <div className="flex items-center mt-2">
-          <span className="font-semibold mr-2">Reading:</span>
-          <span>{reading}</span>
-        </div>
-      </div>
+      <span className="font-bold text-xl">{kanji}</span>
     </div>
   );
 };
 
 const QuizResults = () => {
-  const results = [
-    { kanji: "日", meaning: "Day", reading: "にち / ひ", level: 1 },
-    { kanji: "月", meaning: "Month", reading: "げつ / つき", level: 1 },
-    { kanji: "火", meaning: "Fire", reading: "か / ひ", level: 1 },
-    // Add more result items as needed
+  const results1 = [
+    {
+      kanjiData: {
+        kanji: "村",
+        meanings: ["village", "town"],
+        readings: {
+          pinyin: ["cun1"],
+          korean_r: ["chon"],
+          korean_h: ["촌"],
+          vietnam: ["Thôn"],
+          ja_on: ["ソン"],
+          ja_kun: ["むら"],
+        },
+      },
+      isCorrect: true,
+    },
+    {
+      kanjiData: {
+        kanji: "人",
+        meanings: ["person"],
+        readings: {
+          pinyin: ["ren2"],
+          korean_r: ["in"],
+          korean_h: ["인"],
+          vietnam: ["Nhân"],
+          ja_on: ["ジン", "ニン"],
+          ja_kun: ["ひと", "-り", "-と"],
+        },
+      },
+      isCorrect: true,
+    },
+    {
+      kanjiData: {
+        kanji: "休",
+        meanings: ["rest", "day off", "retire", "sleep"],
+        readings: {
+          pinyin: ["xiu1"],
+          korean_r: ["hyu"],
+          korean_h: ["휴"],
+          vietnam: ["Hưu"],
+          ja_on: ["キュウ"],
+          ja_kun: ["やす.む", "やす.まる", "やす.める"],
+        },
+      },
+      isCorrect: false,
+    },
+    {
+      kanjiData: {
+        kanji: "立",
+        meanings: ["stand up", "rise", "set up", "erect"],
+        readings: {
+          pinyin: ["li4"],
+          korean_r: ["rib"],
+          korean_h: ["립"],
+          vietnam: ["Lập"],
+          ja_on: ["リツ", "リュウ", "リットル"],
+          ja_kun: [
+            "た.つ",
+            "-た.つ",
+            "た.ち-",
+            "た.てる",
+            "-た.てる",
+            "た.て-",
+            "たて-",
+            "-た.て",
+            "-だ.て",
+            "-だ.てる",
+          ],
+        },
+      },
+      isCorrect: false,
+    },
+    {
+      kanjiData: {
+        kanji: "中",
+        meanings: ["in", "inside", "middle", "mean", "center"],
+        readings: {
+          pinyin: ["zhong1", "zhong4"],
+          korean_r: ["jung"],
+          korean_h: ["중"],
+          vietnam: ["Trung", "Trúng"],
+          ja_on: ["チュウ"],
+          ja_kun: ["なか", "うち", "あた.る"],
+        },
+      },
+      isCorrect: true,
+    },
+    {
+      kanjiData: {
+        kanji: "草",
+        meanings: ["grass", "weeds", "herbs", "pasture", "write", "draft"],
+        readings: {
+          pinyin: ["cao3"],
+          korean_r: ["cho"],
+          korean_h: ["초"],
+          vietnam: ["Thảo"],
+          ja_on: ["ソウ"],
+          ja_kun: ["くさ", "くさ-", "-ぐさ"],
+        },
+      },
+      isCorrect: true,
+    },
+    {
+      kanjiData: {
+        kanji: "十",
+        meanings: ["ten"],
+        readings: {
+          pinyin: ["shi2"],
+          korean_r: ["sib"],
+          korean_h: ["십"],
+          vietnam: ["Thập"],
+          ja_on: ["ジュウ", "ジッ", "ジュッ"],
+          ja_kun: ["とお", "と", "そ"],
+        },
+      },
+      isCorrect: false,
+    },
+    {
+      kanjiData: {
+        kanji: "正",
+        meanings: ["correct", "justice", "righteous", "10**40"],
+        readings: {
+          pinyin: ["zheng4", "zheng1"],
+          korean_r: ["jeong"],
+          korean_h: ["정"],
+          vietnam: ["Chánh", "Chính"],
+          ja_on: ["セイ", "ショウ"],
+          ja_kun: ["ただ.しい", "ただ.す", "まさ", "まさ.に"],
+        },
+      },
+      isCorrect: false,
+    },
   ];
 
+  const renderCorrectItems = results1
+    .filter((result) => result.isCorrect)
+    .map((result, index) => {
+      return <ResultItem key={index} {...result.kanjiData} />;
+    });
+
+  const renderIncorrectItems = results1
+    .filter((result) => !result.isCorrect)
+    .map((result, index) => {
+      return <ResultItem key={index} {...result.kanjiData} />;
+    });
+
   return (
-    <div className="bg-gray-200 min-h-screen p-8">
-      <h1 className="text-3xl font-bold mb-4">Quiz Results</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {results.map((result, index) => (
-          <ResultItem key={index} {...result} />
-        ))}
+    <div>
+      <div className="bg-gray-200 min-h-100 p-8">
+        <h1 className="text-3xl font-bold mb-4">Correct</h1>
+        <div
+          className="grid gap-4"
+          style={{
+            gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))",
+          }}
+        >
+          {renderCorrectItems}
+        </div>
+      </div>
+      <div className="bg-gray-200 min-h-100 p-8">
+        <h1 className="text-3xl font-bold mb-4">Incorrect</h1>
+        <div
+          className="grid gap-4"
+          style={{
+            gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))",
+          }}
+        >
+          {renderIncorrectItems}
+        </div>
       </div>
     </div>
   );

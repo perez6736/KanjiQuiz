@@ -45,10 +45,8 @@ function App() {
 
   const createListForQuiz = () => {
     if (kanjis.length === 0) {
-      console.log(kanjis);
       return;
     }
-    console.log(kanjis);
     const results = [];
     while (results.length < 20) {
       const item = kanjis[Math.floor(Math.random() * kanjis.length)];
