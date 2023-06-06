@@ -1,14 +1,9 @@
 import React from "react";
-
-const ResultItem = ({ kanji }) => {
-  return (
-    <div className="bg-white p-4 rounded-lg shadow-md mb-4">
-      <span className="font-bold text-xl">{kanji}</span>
-    </div>
-  );
-};
+import ResultItem from "./ResultItem";
+import ResultsList from "./ResultsList";
 
 const QuizResults = () => {
+  //need to pass in results from kanjiCard here.
   const results1 = [
     {
       kanjiData: {
@@ -157,28 +152,8 @@ const QuizResults = () => {
 
   return (
     <div>
-      <div className="bg-gray-200 min-h-100 p-8">
-        <h1 className="text-3xl font-bold mb-4">Correct</h1>
-        <div
-          className="grid gap-4"
-          style={{
-            gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))",
-          }}
-        >
-          {renderCorrectItems}
-        </div>
-      </div>
-      <div className="bg-gray-200 min-h-100 p-8">
-        <h1 className="text-3xl font-bold mb-4">Incorrect</h1>
-        <div
-          className="grid gap-4"
-          style={{
-            gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))",
-          }}
-        >
-          {renderIncorrectItems}
-        </div>
-      </div>
+      <ResultsList headerText={"Correct"}> {renderCorrectItems} </ResultsList>
+      <ResultsList headerText={"Incorrect"}>{renderIncorrectItems}</ResultsList>
     </div>
   );
 };

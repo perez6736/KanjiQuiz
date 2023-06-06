@@ -79,7 +79,7 @@ function App() {
   };
 
   const renderContent = () => {
-    if (quizCount >= 20) {
+    if (quizCount >= 3) {
       return <QuizResults />;
     } else {
       return (
