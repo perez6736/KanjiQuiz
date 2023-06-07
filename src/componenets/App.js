@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="bg-gray-200 min-h-screen">
       <Header />
-      <QuizPage />
+      <QuizSelectionPage />
     </div>
   );
 }

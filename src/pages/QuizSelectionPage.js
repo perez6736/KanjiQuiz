@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import QuizDropdown from "../componenets/QuizDropdown";
 import QuizLengthSelection from "../componenets/QuizLengthSelection";
 import Button from "../componenets/Button";
+import QuizPage from "./QuizPage";
 
 const QuizSelectionPage = () => {
   const [dropdownValue, setDropdownValue] = useState("");
   const [textFieldValue, setTextFieldValue] = useState("");
+  const [isQuizStarted, setIsQuizStarted] = useState(false);
 
   const handleDropdownChange = (value) => {
     setDropdownValue(value);
@@ -45,19 +47,31 @@ const QuizSelectionPage = () => {
     }
   };
 
-  return (
-    <div className="flex items-center justify-center min-h-screen bg-green-200">
-      <div className="max-w-md p-8 bg-white rounded-lg shadow-xl">
-        <div className="mb-6">
-          <QuizDropdown handleDropdownChange={handleDropdownChange} />
+  const renderQuizSelectionMenu = () => {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="max-w-md p-8 bg-white rounded-lg shadow-xl">
+          <div className="mb-6">
+            <QuizDropdown handleDropdownChange={handleDropdownChange} />
+          </div>
+          <div>
+            <QuizLengthSelection
+              handleTextFieldChange={handleTextFieldChange}
+            />
+          </div>
+          {renderButton()}
         </div>
-        <div>
-          <QuizLengthSelection handleTextFieldChange={handleTextFieldChange} />
-        </div>
-        {renderButton()}
       </div>
-    </div>
-  );
+    );
+  };
+
+  const renderQuiz = () => {
+    return (
+      <QuizPage QuizType={dropdownValue} QuizLength={textFieldValue}></QuizPage>
+    );
+  };
+
+  return <div>{renderQuizSelectionMenu()}</div>;
 };
 
 export default QuizSelectionPage;

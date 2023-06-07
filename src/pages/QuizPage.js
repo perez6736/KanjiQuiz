@@ -3,7 +3,7 @@ import KanjiCard from "../componenets/KanjiCard";
 import QuizResultsPage from "../pages/QuizResultsPage";
 import kanjiAPI from "../api/kanji";
 
-const QuizPage = () => {
+const QuizPage = ({ QuizType, QuizLength }) => {
   const [quizCount, setQuizCount] = useState(0);
   const [quizList, setQuizList] = useState([]);
   const [kanjis, setKanjis] = useState([]);
