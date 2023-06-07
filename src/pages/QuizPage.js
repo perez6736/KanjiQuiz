@@ -1,12 +1,9 @@
 import { useState, useEffect } from "react";
-import Header from "./Header";
-import KanjiCard from "./KanjiCard";
+import KanjiCard from "../componenets/KanjiCard";
 import QuizResultsPage from "../pages/QuizResultsPage";
 import kanjiAPI from "../api/kanji";
-import QuizSelectionPage from "../pages/QuizSelectionPage";
-import QuizPage from "../pages/QuizPage";
 
-function App() {
+const QuizPage = () => {
   const [quizCount, setQuizCount] = useState(0);
   const [quizList, setQuizList] = useState([]);
   const [kanjis, setKanjis] = useState([]);
@@ -95,12 +92,7 @@ function App() {
     }
   };
 
-  return (
-    <div className="bg-gray-200 min-h-screen">
-      <Header />
-      <QuizPage />
-    </div>
-  );
-}
+  return <div>{renderContent()}</div>;
+};
 
-export default App;
+export default QuizPage;
