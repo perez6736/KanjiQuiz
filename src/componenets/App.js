@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import Header from "./Header";
 import KanjiCard from "./KanjiCard";
-import QuizResults from "./QuizResults";
+import QuizResultsPage from "../pages/QuizResultsPage";
 import kanjiAPI from "../api/kanji";
+import QuizSelectionPage from "../pages/QuizSelectionPage";
 
 function App() {
   const [quizCount, setQuizCount] = useState(0);
@@ -80,7 +81,7 @@ function App() {
 
   const renderContent = () => {
     if (quizCount >= 3) {
-      return <QuizResults />;
+      return <QuizResultsPage />;
     } else {
       return (
         <KanjiCard
@@ -96,7 +97,7 @@ function App() {
   return (
     <div className="bg-gray-200 min-h-screen">
       <Header />
-      {renderContent()}
+      <QuizSelectionPage />
     </div>
   );
 }

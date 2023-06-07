@@ -1,8 +1,8 @@
 import React from "react";
-import ResultItem from "./ResultItem";
-import ResultsList from "./ResultsList";
+import ResultItem from "../componenets/ResultItem";
+import ResultsList from "../componenets/ResultsList";
 
-const QuizResults = () => {
+const QuizResultsPage = () => {
   //need to pass in results from kanjiCard here.
   const results1 = [
     {
@@ -158,4 +158,4 @@ const QuizResults = () => {
   );
 };
 
-export default QuizResults;
+export default QuizResultsPage;
