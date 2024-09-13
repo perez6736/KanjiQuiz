@@ -3,10 +3,12 @@ import QuizDropdown from "../componenets/QuizDropdown";
 import QuizLengthSelection from "../componenets/QuizLengthSelection";
 import Button from "../componenets/Button";
 import QuizPage from "./QuizPage";
+import { useNavigate } from "react-router-dom";
 
 const QuizSelectionPage = () => {
   const [dropdownValue, setDropdownValue] = useState("");
   const [textFieldValue, setTextFieldValue] = useState("");
+  const navigate = useNavigate();
 
   const handleDropdownChange = (value) => {
     setDropdownValue(value);
@@ -17,9 +19,9 @@ const QuizSelectionPage = () => {
   };
 
   const handleClick = () => {
-    console.log(
-      `clicked lets start the quiz with ${dropdownValue} and lenght of ${textFieldValue}`
-    );
+    localStorage.setItem("kanjiListType", dropdownValue);
+    localStorage.setItem("quizLenght", textFieldValue);
+    navigate("/quiz");
   };
 
   const isButtonDisabled = dropdownValue === "" || textFieldValue === "";

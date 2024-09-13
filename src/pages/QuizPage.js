@@ -1,95 +1,46 @@
-import { useState, useEffect } from "react";
 import KanjiCard from "../componenets/KanjiCard";
-import QuizResultsPage from "../pages/QuizResultsPage";
-import kanjiAPI from "../api/kanji";
+import { mockdata } from "../mockdata/jouyou1Kanji";
 
-const QuizPage = ({ QuizType, QuizLength }) => {
-  const [quizCount, setQuizCount] = useState(0);
-  const [quizList, setQuizList] = useState([]);
-  const [kanjis, setKanjis] = useState([]);
+const QuizPage = () => {
+  const kanjiListType = localStorage.getItem("KanjiListType");
+  const quizLenght = localStorage.getItem("quizLenght");
 
-  useEffect(() => {
-    const fetchKanji = async () => {
-      try {
-        const response = await kanjiAPI.get("/list/jouyou/1");
-        setKanjis(response.data.kanjis);
-      } catch (error) {
-        setKanjis(error.message);
-      }
+  // make an api to get list of kanji for quiz.
+  // make new object for quiz and quiz results page
+
+  // Function to shuffle an array using Fisher-Yates algorithm
+  // https://www.youtube.com/watch?v=FGAUekwri1Q
+  function shuffleArray(array) {
+    let shuffledArray = array.slice(); // Create a copy of the array
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      // start at end of array and work way down
+      const random = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[random]] = [
+        shuffledArray[random],
+        shuffledArray[i],
+      ]; // Swap elements
+    }
+    return shuffledArray;
+  }
+
+  // Function to get a random subset of an array
+  function getRandomSubset(array, numItems) {
+    const shuffledArray = shuffleArray(array);
+    return shuffledArray.slice(0, numItems); // Return the first `numItems` elements
+  }
+
+  const quizList = getRandomSubset(mockdata.kanjis, quizLenght).map((item) => {
+    return {
+      kanji: item.kanji,
+      meanings: item.meanings.en,
+      isCorrect: false,
     };
+  });
 
-    fetchKanji();
-  }, []);
-
-  useEffect(() => {
-    if (kanjis) {
-      createListForQuiz();
-    }
-  }, [kanjis]);
-
-  const incrementCount = () => {
-    setQuizCount(quizCount + 1);
-  };
-
-  const markKanjiCorrect = () => {
-    let currentKanji = quizList[quizCount].kanjiData.kanji;
-    let newObject = quizList.map((item) => {
-      if (item.kanjiData.kanji === currentKanji) {
-        return { ...item, isCorrect: true };
-      }
-      return item;
-    });
-    setQuizList(newObject);
-  };
-
-  const createListForQuiz = () => {
-    if (kanjis.length === 0) {
-      return;
-    }
-    const results = [];
-    while (results.length < 20) {
-      const item = kanjis[Math.floor(Math.random() * kanjis.length)];
-      if (results.length === 0) {
-        results.push({
-          kanjiData: {
-            kanji: item.kanji,
-            meanings: item.meanings.en,
-            readings: item.readings,
-          },
-          isCorrect: false,
-        });
-      } else if (
-        //results.find returns the first object it finds and returns the result - js is weird and undefind is falsy and defined is truthy.
-        !results.find((result) => {
-          return result.kanjiData.kanji === item.kanji;
-        })
-      ) {
-        results.push({
-          kanjiData: {
-            kanji: item.kanji,
-            meanings: item.meanings.en,
-            readings: item.readings,
-          },
-          isCorrect: false,
-        });
-      }
-    }
-    setQuizList(results);
-  };
+  console.log(quizList);
 
   const renderContent = () => {
-    if (quizCount >= 3) {
-      return <QuizResultsPage />;
-    } else {
-      return (
-        <KanjiCard
-          quizList={quizList}
-          markKanjiCorrect={markKanjiCorrect}
-          quizCount={quizCount}
-          incrementCount={incrementCount}
-        />
-      );
-    }
+    return <KanjiCard quizList={quizList} quizCount={quizLenght} />;
   };
 
   return <div>{renderContent()}</div>;
