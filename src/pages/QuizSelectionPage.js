@@ -7,7 +7,6 @@ import QuizPage from "./QuizPage";
 const QuizSelectionPage = () => {
   const [dropdownValue, setDropdownValue] = useState("");
   const [textFieldValue, setTextFieldValue] = useState("");
-  const [isQuizStarted, setIsQuizStarted] = useState(false);
 
   const handleDropdownChange = (value) => {
     setDropdownValue(value);

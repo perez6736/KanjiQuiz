@@ -1,15 +1,25 @@
-import Header from "./Header";
-import QuizResultsPage from "../pages/QuizResultsPage";
 import QuizSelectionPage from "../pages/QuizSelectionPage";
 import QuizPage from "../pages/QuizPage";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Root from "../pages/Root";
 
-function App() {
-  return (
-    <div className="bg-gray-200 min-h-screen">
-      <Header />
-      <QuizSelectionPage />
-    </div>
-  );
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />,
+    children: [
+      {
+        index: true,
+        element: <QuizSelectionPage />,
+      },
+      {
+        path: "/quiz",
+        element: <QuizPage />,
+      },
+    ],
+  },
+]);
+
+export default function App() {
+  return <RouterProvider router={router} />;
 }
-
-export default App;
