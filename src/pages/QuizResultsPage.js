@@ -2,7 +2,8 @@ import React from "react";
 import ResultItem from "../componenets/ResultItem";
 import ResultsList from "../componenets/ResultsList";
 
-const QuizResultsPage = () => {
+const QuizResultsPage = (quizList) => {
+  console.log(quizList);
   //need to pass in results from kanjiCard here.
   const results1 = [
     {

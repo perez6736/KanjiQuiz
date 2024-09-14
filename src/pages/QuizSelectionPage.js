@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import QuizDropdown from "../componenets/QuizDropdown";
 import QuizLengthSelection from "../componenets/QuizLengthSelection";
 import Button from "../componenets/Button";
-import QuizPage from "./QuizPage";
 import { useNavigate } from "react-router-dom";
 
 const QuizSelectionPage = () => {
@@ -20,7 +19,7 @@ const QuizSelectionPage = () => {
 
   const handleClick = () => {
     localStorage.setItem("kanjiListType", dropdownValue);
-    localStorage.setItem("quizLenght", textFieldValue);
+    localStorage.setItem("quizLength", textFieldValue);
     navigate("/quiz");
   };
 
@@ -63,12 +62,6 @@ const QuizSelectionPage = () => {
           {renderButton()}
         </div>
       </div>
-    );
-  };
-
-  const renderQuiz = () => {
-    return (
-      <QuizPage QuizType={dropdownValue} QuizLength={textFieldValue}></QuizPage>
     );
   };
 

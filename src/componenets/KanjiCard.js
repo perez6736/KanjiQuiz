@@ -1,28 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Kanji from "./Kanji";
 import Button from "./Button";
 
-function KanjiCard({ quizList, markKanjiCorrect, quizCount, incrementCount }) {
+function KanjiCard({ quizList, returnUpdatedQuizList }) {
   const [showBack, setShowBack] = useState(false);
+  const [count, setCount] = useState(0);
 
   const handleClick = () => {
     setShowBack(!showBack);
   };
 
   const handleCorrectAnswerClick = () => {
-    markKanjiCorrect();
-    incrementCount();
-    setShowBack(!showBack);
+    quizList[count].isCorrect = true;
+    setCount(count + 1);
+    setShowBack(false);
   };
 
   const handleWrongAnswerClick = () => {
-    incrementCount();
-    setShowBack(!showBack);
+    quizList[count].isCorrect = false;
+    setCount(count + 1);
+    setShowBack(false);
   };
 
+  // useEffect to handle quiz completion
+  // if i call this in showQuizItem I get a warning about updating state of another componenet here.
+  // useEffect was the solution to that warning.
+  // https://www.youtube.com/watch?v=0ZJgIjIuY7U
+  useEffect(() => {
+    if (count === quizList.length) {
+      returnUpdatedQuizList(quizList);
+    }
+  }, [count, quizList, returnUpdatedQuizList]);
+
   const showQuizItem = () => {
-    if (quizList.length > 0) {
-      return quizList[quizCount].kanjiData.kanji;
+    if (count < quizList.length && quizList[count]) {
+      return quizList[count].kanji;
     } else {
       return "...Loading";
     }
