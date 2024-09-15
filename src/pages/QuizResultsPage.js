@@ -2,7 +2,7 @@ import React from "react";
 import ResultItem from "../componenets/ResultItem";
 import ResultsList from "../componenets/ResultsList";
 
-const QuizResultsPage = (quizList) => {
+const QuizResultsPage = ({ quizList }) => {
   console.log(quizList);
   //need to pass in results from kanjiCard here.
   const results1 = [
@@ -139,16 +139,16 @@ const QuizResultsPage = (quizList) => {
     },
   ];
 
-  const renderCorrectItems = results1
+  const renderCorrectItems = quizList
     .filter((result) => result.isCorrect)
     .map((result, index) => {
-      return <ResultItem key={index} {...result.kanjiData} />;
+      return <ResultItem key={index} {...result} />;
     });
 
-  const renderIncorrectItems = results1
+  const renderIncorrectItems = quizList
     .filter((result) => !result.isCorrect)
     .map((result, index) => {
-      return <ResultItem key={index} {...result.kanjiData} />;
+      return <ResultItem key={index} {...result} />;
     });
 
   return (
