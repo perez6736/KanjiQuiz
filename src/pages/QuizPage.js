@@ -1,12 +1,13 @@
 import KanjiCard from "../componenets/KanjiCard";
 import QuizResultsPage from "./QuizResultsPage";
 import { mockdata } from "../mockdata/jouyou1Kanji";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const QuizPage = () => {
   const [isQuizDone, setIsQuizDone] = useState(false);
+  const [quizList, setQuizList] = useState([]);
   const kanjiListType = localStorage.getItem("KanjiListType");
-  const quizLength = localStorage.getItem("quizLength");
+  const quizLength = parseInt(localStorage.getItem("quizLength"));
 
   // Function to shuffle an array using Fisher-Yates algorithm
   // https://www.youtube.com/watch?v=FGAUekwri1Q
@@ -29,31 +30,36 @@ const QuizPage = () => {
     return shuffledArray.slice(0, numItems); // Return the first `numItems` elements
   }
 
-  const returnUpdatedQuizList = (newQuizList) => {
-    // TODO: make sure this list gets updated properly
-    quizList = newQuizList;
+  function returnUpdatedQuizList(newQuizList) {
+    console.log("returnUpdatedQuizList");
+    setQuizList(newQuizList);
     setIsQuizDone(true);
-  };
+  }
 
-  // do i want to reshuffle everytime the page reloads?
-  let quizList = getRandomSubset(mockdata.kanjis, quizLength).map((item) => {
-    return {
-      kanji: item.kanji,
-      meanings: item.meanings.en,
-      isCorrect: false,
-    };
-  });
+  useEffect(() => {
+    const newQuizList = getRandomSubset(mockdata.kanjis, quizLength).map(
+      (item) => ({
+        kanji: item.kanji,
+        meanings: item.meanings.en,
+        isCorrect: false,
+      })
+    );
+    setQuizList(newQuizList);
+  }, []);
 
   const renderContent = () => {
     if (isQuizDone) {
       return <QuizResultsPage quizList={quizList} />;
     }
-    return (
-      <KanjiCard
-        quizList={quizList}
-        returnUpdatedQuizList={returnUpdatedQuizList}
-      />
-    );
+    if (quizList.length !== 0) {
+      // this stops from the kanjiCard with an empty quizlist.
+      return (
+        <KanjiCard
+          quizList={quizList}
+          returnUpdatedQuizList={returnUpdatedQuizList}
+        />
+      );
+    }
   };
 
   return <div>{renderContent()}</div>;
